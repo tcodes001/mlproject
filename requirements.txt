@@ -8,4 +8,5 @@ catboost==1.2.3
 xgboost==2.0.3
 dill
 Flask
+shap
 # -e .

@@ -13,6 +13,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import (AdaBoostRegressor, GradientBoostingRegressor, RandomForestRegressor)
 
 from src.utils import save_object, evaluate_models
+from src.components.model_explainer import generate_shap_plot
 
 @dataclass
 class ModelTrainerConfig:
@@ -103,6 +104,7 @@ class ModelTrainer:
                 obj = best_model
             )
 
+            generate_shap_plot(best_model, X_train)
             predicted = best_model.predict(X_test)
 
             r2_square = r2_score(y_test, predicted)
