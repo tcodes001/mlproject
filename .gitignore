@@ -5,7 +5,7 @@ __pycache__/
 *$py.class
 
 # Ignore artifacts folder
-artifacts/
+#artifacts/ -gives error while deploying
 
 # C extensions
 *.so
