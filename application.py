@@ -37,9 +37,8 @@ def predict_datapoint():
             results = predict_pipeline.predict(pred_df)
 
             return render_template('home.html', results = results[0])
-    except Exception as e:
-        print("❌ ERROR during prediction:", str(e))  # This will appear in `web.stdout.log`
-        return render_template('home.html', results="Something went wrong. Please try again.")
+    except Exception as e: # This will appear in `web.stdout.log`
+        return "Something went wrong." + str(e)
 
 if __name__=="__main__":
     app.run(host="0.0.0.0")
