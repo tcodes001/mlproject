@@ -1,1 +1,93 @@
-<h1> Welcome to the Home page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Performance Predictor</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0d0417;
+      padding: 50px 20px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      color: #ffffff;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .content {
+      max-width: 900px;
+      color: #ffbd6d;
+      font-size: 1.2rem;
+      line-height: 1.7;
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .content p {
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      background-color: #e28438;
+      color: #ffffff;
+      border: none;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #022144;
+      transform: scale(1.05);
+    }
+
+    footer {
+      margin-top: 35px;
+      font-size: 0.9rem;
+      color: #7cb3f9;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to the Student Performance Predictor</h1>
+
+  <div class="content">
+    <p>
+      This project was born out of a simple question:
+      <strong>“What if we could identify when a student might be struggling in math — before it’s too late?”</strong>
+    </p>
+
+    <p>
+      As someone deeply interested in both data science and education, I built this tool to explore how machine learning can be used not just for predictions, but for <strong>early intervention</strong>.
+    </p>
+
+    <p>
+      The model uses details like a student's reading and writing scores, background, and learning environment to <strong>predict their math score</strong>. But more importantly, it also tells you <strong>why</strong> the model made that prediction — through a personalized, human-readable explanation.
+    </p>
+
+    <p>
+      Whether you’re an educator, a parent, or just someone curious about AI, this tool shows how data can help us make smarter, more empathetic decisions in the classroom.
+    </p>
+  </div>
+
+  <form action="{{ url_for('predict_datapoint') }}" method="get">
+    <button class="btn" type="submit">Start Prediction</button>
+  </form>
+
+  <footer>
+    Created by Tanisha Solanki | Aspiring Data Scientist
+  </footer>
+
+</body>
+</html>
