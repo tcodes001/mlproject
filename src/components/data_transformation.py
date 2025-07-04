@@ -96,6 +96,9 @@ class DataTransformation:
                 train_arr,
                 test_arr,
                 self.data_transformation_config.preprocessor_obj_file_path,
+                input_feature_test_df,
+                input_feature_test_arr,
+                target_feature_test_df
             )
 
         except Exception as e:

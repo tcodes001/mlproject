@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>📊 Model Report</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background-color: #e6f0ff;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        .section {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 1400px; /* Increased for wider charts */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h2 {
+            color: #1a3e75;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        p, li {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .metric {
+            margin-bottom: 20px;
+        }
+
+        /* WIDE IMAGE STYLING FOR HORIZONTAL BAR CHARTS */
+        .image-container {
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .image-centered {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        .image-centered img {
+            display: block;
+            width: 100%;
+            max-width: 1300px; /* Much wider for horizontal charts */
+            height: auto;
+            min-height: 450px; /* Adequate height for readability */
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            background-color: white;
+        }
+
+        .image-centered img:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* SLEEK SIZING FOR FAIRNESS ANALYSIS IMAGES */
+        .fairness-image-container {
+            margin: 25px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f1f3f4 0%, #e8eaf6 100%);
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .fairness-image-centered {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .fairness-image-centered img {
+            display: block;
+            width: 100%;
+            max-width: 800px; /* Smaller, more aesthetic size */
+            height: auto;
+            min-height: 300px; /* Reduced height for sleek appearance */
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            background-color: white;
+        }
+
+        .fairness-image-centered img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Special styling for model comparison charts */
+        .model-comparison-container {
+            background: linear-gradient(135deg, #262d4d 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .model-comparison-container .image-centered {
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .model-comparison-container img {
+            min-height: 500px; /* Extra height for the comparison charts */
+            max-width: 1350px; /* Maximum width for horizontal bar charts */
+        }
+
+        /* Image caption styling */
+        .image-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 15px;
+            font-style: italic;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+        }
+
+        .model-comparison-container .image-caption {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .fairness-image-caption {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #555;
+            margin-top: 12px;
+            font-style: italic;
+            padding: 8px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 6px;
+        }
+
+        ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
+
+        .download-btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .download-btn button {
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+
+        .subtle {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        .feature-title {
+            font-weight: bold;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #1a3e75;
+        }
+
+        /* Responsive design */
+        @media (max-width: 1200px) {
+            .section {
+                max-width: 95%;
+                padding: 20px;
+            }
+            
+            .image-centered img {
+                max-width: 100%;
+                min-height: 400px;
+            }
+            
+            .model-comparison-container img {
+                min-height: 450px;
+            }
+            
+            .fairness-image-centered img {
+                max-width: 100%;
+                min-height: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .image-centered img {
+                min-height: 350px;
+            }
+            
+            .model-comparison-container img {
+                min-height: 400px;
+            }
+            
+            .fairness-image-centered img {
+                min-height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>📊 Student Performance Model Report</h1>
+
+    <!-- Section 1: Best Model Metrics -->
+    <div class="section">
+        <h2>1️⃣ Best Model: {{ model_name }}</h2>
+        <div class="metric">
+            <strong>R² Score:</strong> {{ r2_score }}  
+            <p class="subtle">This tells us how much of the student's score we can explain using this model. A value close to 1 means great accuracy!</p>
+        </div>
+        <div class="metric">
+            <strong>RMSE:</strong> {{ rmse }}  
+            <p class="subtle">On average, the model's predictions are off by about this much. Lower is better!</p>
+        </div>
+        <div class="metric">
+            <strong>MAE:</strong> {{ mae }}  
+            <p class="subtle">This is the average absolute error. It shows how far our predictions are from actual scores on average.</p>
+        </div>
+    </div>
+    
+    <!-- Section 1.5: Baseline Model Metrics -->
+    <div class="section">
+        <h2>📉 Baseline Model (Mean Predictor)</h2>
+        <div class="metric">
+            <strong>R² Score:</strong> {{ baseline_r2 }}  
+            <p class="subtle"> A negative R² means this model performs <em>worse than simply predicting the average math score for every student</em>.
+            It suggests that the dummy model adds noise rather than value.
+            In other words, <span style="color: #c0392b;"><strong>it fails to capture any useful pattern</strong></span> in the data.
+            </p>
+        </div>
+        <div class="metric">
+            <strong>RMSE:</strong> {{ baseline_rmse }}  
+            <p class="subtle">This is the root mean squared error for the baseline. It's typically large because the model doesn't tailor predictions to individual inputs.
+        </p>
+        </div>
+        <div class="metric">
+            <strong>MAE:</strong> {{ baseline_mae }}  
+            <p class="subtle">The average error for the baseline model. We want our trained model to be significantly better than this.</p>
+        </div>
+        <div class="metric">
+            <h3 style="margin-top: 25px;">📈 Why the Best Model is Better</h3>
+                <p class="subtle">
+            Compared to the dummy model (which predicts the same average for everyone), our best model <strong>learns from patterns in the data</strong> —
+            like gender, reading and writing scores, and test preparation — to make more accurate predictions.
+                </p>
+        <ul style="margin-left: 20px;">
+            <li><strong>R² improved</strong> from {{ baseline_r2 }} → <strong>{{ r2_score }}</strong>, meaning our model explains much more of the variation in scores.</li>
+            <li><strong>RMSE dropped</strong> from {{ baseline_rmse }} → <strong>{{ rmse }}</strong>, showing fewer large mistakes.</li>
+            <li><strong>MAE dropped</strong> from {{ baseline_mae }} → <strong>{{ mae }}</strong>, meaning smaller average errors per prediction.</li>
+        </ul>
+        <p class="subtle" style="margin-top: 10px;">
+            This proves the trained model is <span style="color: green;"><strong>substantially better</strong></span> than guessing the average.
+        </p>
+        </div>
+    </div>
+
+    <!-- Section 2: Model Comparison -->
+    <div class="section">
+        <h2>2️⃣ Model Comparison</h2>
+        <div class="model-comparison-container">
+            <div class="image-centered">
+                <img src="{{ model_comp_img }}" alt="Model Comparison Chart">
+            </div>
+            <div class="image-caption">
+                📊 Comprehensive performance comparison across R² Score, RMSE, and MAE metrics
+            </div>
+        </div>
+        <p>
+            The chart above shows how different models performed. The <strong>{{ model_name }}</strong> stands out as the best because it achieved the highest R² and lowest errors. That means it can predict student scores more reliably than the others.
+        </p>
+    </div>
+
+    <!-- Section 3: Fairness and Bias -->
+    <div class="section">
+        <h2>3️⃣ Fairness & Bias Analysis</h2>
+        
+        {% for img_path, summary in fairness_data %}
+        <div class="feature-title">🔍 Feature Bias Analysis</div>
+        
+        <div class="fairness-image-container">
+            <div class="fairness-image-centered">
+                <img src="{{ img_path }}" alt="Fairness Analysis Chart">
+            </div>
+            <div class="fairness-image-caption">
+                📈 Bias analysis for model fairness evaluation
+            </div>
+        </div>
+        
+        <p>{{ summary }}</p>
+        {% endfor %}
+    </div>
+
+    <!-- Optional: Confidence Intervals -->
+    {% if confidence_intervals %}
+    <div class="section">
+        <h2>📐 Confidence Intervals</h2>
+        <ul>
+            {% for line in confidence_intervals %}
+            <li>{{ line }}</li>
+            {% endfor %}
+        </ul>
+        <p class="subtle">
+            Across the entire test set, <strong>{{ coverage_percent }}%</strong> of true scores fell within the predicted 95% confidence intervals. 
+        </p>
+        <p class="subtle" style="margin-top: -10px;">
+            This suggests that while the confidence intervals give a general sense of uncertainty, they may currently be too narrow to capture the full variation in actual scores.
+         </p>
+    </div>
+    {% endif %}
+
+    <!-- Download Button -->
+    <div class="download-btn">
+        <form action="/download_report" method="get">
+            <button type="submit">⬇️ Download This Report</button>
+        </form>
+    </div>
+
+</body>
+</html>

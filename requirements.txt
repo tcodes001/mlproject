@@ -9,4 +9,5 @@ xgboost==2.0.3
 dill
 Flask
 shap
+fairlearn
 # -e .

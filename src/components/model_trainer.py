@@ -87,14 +87,11 @@ class ModelTrainer:
             model_report: dict= evaluate_models(X_train=X_train, y_train=y_train, X_test=X_test, y_test=y_test, models=models, param=params)
 
             # gets the best model score from the dictionary
-            best_model_score = max(sorted(model_report.values()))
-            best_model_name = list(model_report.keys())[
-                list(model_report.values()).index(best_model_score)
-                ]
-            
+            best_model_name = max(model_report, key= lambda k: model_report[k]["R2"])
             best_model = models[best_model_name]
+            best_model_metrics = model_report[best_model_name]
 
-            if best_model_score<0.6:
+            if best_model_metrics["R2"] <0.6:
                 raise CustomException("No best models found")
             logging.info("Best model found on both training and testing dataset")
 
@@ -103,11 +100,13 @@ class ModelTrainer:
                 obj = best_model
             )
 
-            predicted = best_model.predict(X_test)
+            print(f"\n✅ Best Model: {best_model_name}")
+            print(f" R² Score on Test Set: {best_model_metrics['R2']:.4f}")
+            print(f" RMSE: {best_model_metrics['RMSE']:.4f}")
+            print(f" MAE: {best_model_metrics['MAE']:.4f}")
 
-            r2_square = r2_score(y_test, predicted)
 
-            return r2_square
+            return best_model_metrics["R2"] , model_report, best_model, best_model_name, best_model_metrics
 
         except Exception as e:
             raise CustomException(e,sys)
